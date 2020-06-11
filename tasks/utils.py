@@ -30,55 +30,12 @@ COLOR_STABLE = "blue"
 
 # from keyrings.cryptfile.cryptfile import CryptFileKeyring
 ENV_WHITELIST = [
-    "DEBUG",
-    "TESTING",
-    "SECRET_KEY",
-    "REDIS_URL",
-    "REDIS_ENDPOINT",
-    "REDIS_PORT",
-    "REDIS_DB",
-    "DATABASE_URL",
-    "TEST_DATABASE_URL",
-    "DEFAULT_MODULE_NAME",
-    "VARIABLE_NAME",
-    "MODULE_NAME",
-    "APP_MODULE",
-    "DEFAULT_GUNICORN_CONF",
-    "PRE_START_PATH",
-    "DOMAIN",
-    "HOST",
-    "PORT",
-    "LOG_LEVEL",
-    "BETTER_EXCEPTIONS",
-    "SERVER_NAME",
-    "SERVER_HOST",
-    "ULTRON_ENABLE_WEB",
-    "JUPYTER",
-    "PROJECT_NAME",
-    "DOMAIN_MAIN",
-    "FIRST_SUPERUSER",
-    "FIRST_SUPERUSER_PASSWORD",
-    "SMTP_TLS",
-    "SMTP_PORT",
-    "SMTP_EMAILS_FROM_EMAIL",
-    "FLOWER_AUTH",
-    "USERS_OPEN_REGISTRATION",
-    "BACKEND_CORS_ORIGINS",
-    "VERSION",
-    "NAME",
-    "BETTER_EXCEPTIONS",
-    "HOME",
-    "LANG",
-    "LANGUAGE",
-    "PATH",
-    "PYENV_",
-    "VIRTUALENVWRAPPER_",
-    "WORKON_HOME",
-    "VIRTUAL_ENV",
-    "DOCKER_TLS_VERIFY",
-    "DOCKER_HOST",
-    "DOCKER_CERT_PATH",
-    "DOCKER_MACHINE_NAME",
+    "POSTGRES_DB",
+    "POSTGRES_PORT",
+    "POSTGRES_USER",
+    "POSTGRES_PASSWORD",
+    "POSTGRES_HOST",
+    "DB_CONNECTION"
 ]
 
 logger = logging.getLogger(__name__)
@@ -111,9 +68,9 @@ def get_version():
     Returns:
         Str -- Returns current version of application
     """
-    from fake-medium-fastapi import __version__
+    from app.core.config import VERSION
 
-    return __version__
+    return VERSION
 
 
 def get_compose_env(c, loc="docker", name=None):
@@ -132,7 +89,7 @@ def get_compose_env(c, loc="docker", name=None):
         if key in os.environ:
             env[key] = "{}".format(os.getenv(key))
 
-    for key in env.keys():
+    for key in list(env):
         # print("ENV: {}".format(key))
         if key not in ENV_WHITELIST:
             del env[key]

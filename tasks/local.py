@@ -17,42 +17,8 @@ from .utils import (
     COLOR_STABLE,
 )
 
-
-# from tasks.core import clean, execute_sql
-
 logger = logging.getLogger(__name__)
 logger.setLevel("DEBUG")
-
-
-# @task
-# def run_local(c, service='flask'):
-#     if not is_venv():
-#         raise Exception("Venv is not activated. Please activate the onboarding \
-#             venv by running $ROOT_REPO/venv/bin/activate.")
-#     env = get_compose_env(c)
-#     if service == 'flask':
-#         c.run("flask run --reload --host 0.0.0.0 --port 5000 --debugger", env=env)
-#     else:
-#         print('Unknown service')
-
-# @task
-# def start_db(c):
-#     env = get_compose_env(c)
-#     c.run('docker-compose  -f ./aws-codebuild/dev-stack.yaml up -d adminer', env=env)
-
-
-# @task
-# def reset_test_db(c, loc='local'):
-#     """
-#     Reset the test database
-#     """
-#     conn_string = c.local['env']['TEST_SQLALCHEMY_DATABASE_URI']
-#     db = make_url(conn_string)
-#     sql1 = f'DROP DATABASE IF EXISTS {db.database}'
-#     sql2 = f'CREATE DATABASE {db.database}'
-#     execute_sql(c, sql=[sql1, sql2],
-#                 conn_string=conn_string, database='template1')
-
 
 @task(incrementable=["verbose"])
 def get_env(ctx, loc="local", verbose=0):
@@ -173,11 +139,11 @@ pgrep -f "fake-medium-fastapi/dev_serve.py" || true
 
     ctx.run(_cmd)
 
-    ctx.run("pip install -e .")
+    # ctx.run("pip install -e .")
     ctx.run("alembic --raiseerr upgrade head")
-    ctx.run("python ./fake-medium-fastapi/api/backend_pre_start.py")
-    ctx.run("python ./fake-medium-fastapi/initial_data.py")
-    ctx.run("python fake-medium-fastapi/dev_serve.py")
+    # ctx.run("python ./fake-medium-fastapi/api/backend_pre_start.py")
+    # ctx.run("python ./fake-medium-fastapi/initial_data.py")
+    # ctx.run("python fake-medium-fastapi/dev_serve.py")
 
 
 @task(pre=[call(detect_os, loc="local")], incrementable=["verbose"])
@@ -208,8 +174,8 @@ def web(ctx, loc="local", verbose=0, cleanup=False, app_only=False):
         ctx.config["run"]["env"]["ULTRON_ENVIRONMENT"] = "development"
 
     _cmd = r"""
-pkill -f "fake-medium-fastapi/web.py" || true
-pgrep -f "fake-medium-fastapi/web.py" || true
+pkill -f "uvicorn app.main:app --reload" || true
+pgrep -f "uvicorn app.main:app --reload" || true
     """
 
     if verbose >= 1:
@@ -222,14 +188,15 @@ pgrep -f "fake-medium-fastapi/web.py" || true
     ctx.run(_cmd)
 
     if not app_only:
-        ctx.run("pip install -e .")
+        # ctx.run("pip install -e .")
         ctx.run("alembic --raiseerr upgrade head")
-        ctx.run("python ./fake-medium-fastapi/api/backend_pre_start.py")
-        ctx.run("python ./fake-medium-fastapi/initial_data.py")
+        # ctx.run("python ./fake-medium-fastapi/api/backend_pre_start.py")
+        # ctx.run("python ./fake-medium-fastapi/initial_data.py")
+        # ctx.run("python ./fake-medium-fastapi/initial_data.py")
     else:
         click.secho("APP ONLY MODE DETECTED.", fg=COLOR_WARNING)
 
-    ctx.run("python fake-medium-fastapi/web.py")
+    ctx.run("uvicorn app.main:app --reload")
 
 
 @task(

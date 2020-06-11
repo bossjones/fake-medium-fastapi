@@ -85,7 +85,7 @@ pip install -U pip setuptools --no-cache-dir && \
   pip install -U virtualenv pipenv --no-cache-dir && \
   pip install -U virtualenvwrapper --no-cache-dir
 
-export PYENV_VERSION=3.7.4
+export PYENV_VERSION=3.8.2
 pip install -U pip setuptools --no-cache-dir && \
   pip install -U virtualenv pipenv --no-cache-dir && \
   pip install -U virtualenvwrapper --no-cache-dir

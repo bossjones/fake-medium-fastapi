@@ -100,15 +100,15 @@ function _install_pyenv-default-packages(){
 
 # function: _install_python
 function _install_python() {
-  # Install python 3.7.4  if not already installed, python is needed for virtualenvwraper
+  # Install python 3.8.2 if not already installed, python is needed for virtualenvwraper
   _install_os_deps
-  if [[ -d "$HOME/.pyenv/versions/3.7.4" ]] ; then
+  if [[ -d "$HOME/.pyenv/versions/3.8.2" ]] ; then
     debug "Python version is already installed"
     return
   else
-    e "Installing python 3.7.4 into ${PYENV_ROOT}/versions"
+    e "Installing python 3.8.2into ${PYENV_ROOT}/versions"
     CFLAGS='-O2'; export CFLAGS
-    if ! pyenv install 3.7.4 >/dev/null 2>&1; then
+    if ! pyenv install 3.8.2>/dev/null 2>&1; then
       debug "Could not install python!"
       return $?
     fi
@@ -210,8 +210,8 @@ _install_pyenv_wrapper
 
 # Install python
 _install_python
-pyenv global 3.7.4 >/dev/null 2>&1 # set default python installation
-pyenv shell 3.7.4 >/dev/null 2>&1 # set shell python version
+pyenv global 3.8.2>/dev/null 2>&1 # set default python installation
+pyenv shell 3.8.2>/dev/null 2>&1 # set shell python version
 
 # Upgrade pip
 pip install --upgrade pip

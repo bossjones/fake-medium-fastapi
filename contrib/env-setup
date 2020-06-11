@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-pyenv shell 3.7.4
+pyenv shell 3.8.2
 
 export WORKON_HOME="$HOME/.pyenv/versions"
 export PROJECT_HOME=$HOME/dev

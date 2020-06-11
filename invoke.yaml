@@ -17,59 +17,21 @@ run:
 docker:
   env:
     # env vars for the flask app
-    DEBUG: 'True'
-    TESTING: 'True'
-    SECRET_KEY: 43n080musdfjt54t-09sdgr
-    REDIS_URL: "redis://localhost"
-    REDIS_ENDPOINT: 127.0.0.1
-    REDIS_PORT: '6379'
-    REDIS_DB: '0'
-    DATABASE_URL: "sqlite:///dev.db"
-    TEST_DATABASE_URL: "sqlite:///test.db"
-    DEFAULT_MODULE_NAME: "fake-medium-fastapi.web"
-    VARIABLE_NAME: app
-    MODULE_NAME: "fake-medium-fastapi.web"
-    APP_MODULE: "fake-medium-fastapi.web:app"
-    DEFAULT_GUNICORN_CONF: /gunicorn_conf.py
-    PRE_START_PATH: "/home/developer/app/fake-medium-fastapi/migrations/gunicorn-prestart.sh"
-    HOST: 0.0.0.0
-    PORT: '11267'
-    LOG_LEVEL: info
+    POSTGRES_DB: "rwdb"
+    POSTGRES_PORT: "5432"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
+    POSTGRES_HOST: 172.16.2.234
+    DB_CONNECTION: "postgresql://postgres:postgres@172.16.2.234:5432/rwdb"
+    SECRET_KEY: "4f5830195970088f3c34f3dd1aeec1ce7b0c9153270b5d50c770cdbdd65f8403"
 
 local:
   env:
     # env vars for the flask app
-    DEBUG: 'True'
-    TESTING: 'True'
-    SECRET_KEY: 43n080musdfjt54t-09sdgr
-    REDIS_URL: "redis://localhost"
-    REDIS_ENDPOINT: 127.0.0.1
-    REDIS_PORT: '6379'
-    REDIS_DB: '0'
-    DATABASE_URL: "sqlite:///dev.db"
-    TEST_DATABASE_URL: "sqlite:///test.db"
-    DEFAULT_MODULE_NAME: "fake-medium-fastapi.web"
-    VARIABLE_NAME: app
-    MODULE_NAME: "fake-medium-fastapi.web"
-    APP_MODULE: "fake-medium-fastapi.web:app"
-    DEFAULT_GUNICORN_CONF: /Users/malcolm/dev/bossjones/fake-medium-fastapi/gunicorn_conf.py
-    PRE_START_PATH: /Users/malcolm/dev/bossjones/fake-medium-fastapi/migrations/gunicorn-prestart.sh
-    DOMAIN: localhost
-    HOST: localhost
-    PORT: '11267'
-    LOG_LEVEL: DEBUG
-    BETTER_EXCEPTIONS: '1'
-    SERVER_NAME: 'localhost:11267'
-    SERVER_HOST: http://localhost:11267
-    ULTRON_ENABLE_WEB: 'False'
-    JUPYTER: "jupyter lab --ip=0.0.0.0 --allow-root --NotebookApp.custom_display_url=http://127.0.0.1:8888"
-    PROJECT_NAME: fake-medium-fastapi
-    DOMAIN_MAIN: fake-medium-fastapi.com
-    FIRST_SUPERUSER: 'admin@fake-medium-fastapi.com'
-    FIRST_SUPERUSER_PASSWORD: 'password'
-    SMTP_TLS: 'True'
-    SMTP_PORT: '587'
-    SMTP_EMAILS_FROM_EMAIL: 'info@fake-medium-fastapi.com'
-    FLOWER_AUTH: 'admin:password'
-    USERS_OPEN_REGISTRATION: 'False'
-    BACKEND_CORS_ORIGINS: '*'
+    POSTGRES_DB: "rwdb"
+    POSTGRES_PORT: "5432"
+    POSTGRES_USER: "postgres"
+    POSTGRES_PASSWORD: "postgres"
+    POSTGRES_HOST: 172.16.2.234
+    DB_CONNECTION: "postgresql://postgres:postgres@172.16.2.234:5432/rwdb"
+    SECRET_KEY: "4f5830195970088f3c34f3dd1aeec1ce7b0c9153270b5d50c770cdbdd65f8403"

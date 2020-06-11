@@ -92,17 +92,17 @@ def pylint(ctx, loc="local", tests=False, everything=False, specific=""):
 
     if tests:
         ctx.run(
-            "pylint --disable=all --enable=F,E --rcfile ./lint-configs-python/python/pylintrc tests"
+            "poetry run pylint --disable=all --enable=F,E --rcfile ./lint-configs-python/python/pylintrc tests"
         )
     elif everything:
-        ctx.run("pylint --rcfile ./lint-configs-python/python/pylintrc tests fake-medium-fastapi")
+        ctx.run("poetry run pylint --rcfile ./lint-configs-python/python/pylintrc tests app")
     elif specific:
         ctx.run(
-            f"pylint --disable=all --enable={specific} --rcfile ./lint-configs-python/python/pylintrc tests fake-medium-fastapi"
+            f"poetry run pylint --disable=all --enable={specific} --rcfile ./lint-configs-python/python/pylintrc tests app"
         )
     else:
         ctx.run(
-            "pylint --disable=all --enable=F,E --rcfile ./lint-configs-python/python/pylintrc fake-medium-fastapi"
+            "poetry run pylint --disable=all --enable=F,E --rcfile ./lint-configs-python/python/pylintrc app"
         )
 
 
@@ -206,7 +206,7 @@ def isort(
 @task
 def verify_python_version(ctx, loc="local", check=True, debug=False):
     """
-    verify_python_version is 3.7.4
+    verify_python_version is 3.8.2
     """
     env = get_compose_env(ctx, loc=loc)
 
@@ -217,10 +217,10 @@ def verify_python_version(ctx, loc="local", check=True, debug=False):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    # Python 3.7.4
+    # Python 3.8.2
     res = ctx.run("python --version")
 
-    assert "Python 3.7.4" in res.stdout.rstrip()
+    assert "Python 3.8.2" in res.stdout.rstrip()
 
 
 @task
