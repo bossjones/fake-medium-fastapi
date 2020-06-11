@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+pyenv shell 3.7.4
+
+export WORKON_HOME="$HOME/.pyenv/versions"
+export PROJECT_HOME=$HOME/dev
+
+mkvirtualenv ultron8_374
+
+workon ultron8_374
+
+pip install -e .[dev,tests,docs]
