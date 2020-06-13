@@ -1,6 +1,6 @@
 import pytest
 from asyncpg.pool import Pool
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from httpx import AsyncClient
 from starlette import status
 

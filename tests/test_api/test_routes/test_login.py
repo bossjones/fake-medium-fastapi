@@ -1,5 +1,5 @@
 import pytest
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from httpx import AsyncClient
 from starlette.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 

@@ -121,11 +121,14 @@ def mypy(ctx, loc="local", verbose=0):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    ctx.run("poetry run mypy --config-file ./lint-configs-python/python/mypy.ini app tests")
+    # ctx.run("poetry run mypy --config-file ./lint-configs-python/python/mypy.ini app tests")
+    ctx.run("poetry run mypy --config-file ./setup.cfg app tests")
 
-
-@task(incrementable=["verbose"])
-def black(ctx, loc="local", check=True, debug=False, verbose=0):
+@task(
+    pre=[call(clean, loc="local"),],
+    incrementable=["verbose"],
+)
+def black(ctx, loc="local", check=False, debug=False, verbose=0, tests=False):
     """
     Run black code formatter
     Usage: inv ci.black
@@ -139,21 +142,31 @@ def black(ctx, loc="local", check=True, debug=False, verbose=0):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _black_excludes = r"/(\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|_build|buck-out|dist|fake-medium-fastapi_venv*)/"
-    _cmd = ""
+    _cmd = "poetry run black "
 
     if check:
-        _cmd = "poetry run black --check --exclude=.venv* --verbose app"
-    else:
-        if verbose >= 1:
-            msg = "[black] check mode disabled"
-            click.secho(msg, fg="green")
-        _cmd = r"poetry run black --exclude='{}' --verbose app".format(_black_excludes)
+        _cmd += "--check "
+
+    if verbose >= 3:
+        _cmd += "--verbose "
+
+    if tests:
+        _cmd += "tests "
+
+    _cmd += "app"
+
+    if verbose >= 1:
+        msg = "[black] bout to run command: \n"
+        click.secho(msg, fg="green")
+        click.secho(_cmd, fg="green")
 
     ctx.run(_cmd)
 
 
-@task(incrementable=["verbose"])
+@task(
+    pre=[call(clean, loc="local"),],
+    incrementable=["verbose"],
+)
 def isort(
     ctx, loc="local", check=False, dry_run=False, verbose=0, apply=False, diff=False
 ):
@@ -495,7 +508,7 @@ def monkeytype(
 modules_array=()
 while IFS= read -r line; do
     modules_array+=( "$line" )
-done < <( monkeytype list-modules | grep -v "pytestipdb" )
+done < <( monkeytype list-modules | grep -v "pytestipdb" | grep -v "fdf8821871d7_main_tables" | grep -v "env_py" )
 
 echo "Stub all modules using monkeytype"
 for element in "${modules_array[@]}"
@@ -525,7 +538,7 @@ done
 modules_array=()
 while IFS= read -r line; do
     modules_array+=( "$line" )
-done < <( monkeytype list-modules | grep -v "pytestipdb" )
+done < <( monkeytype list-modules | grep -v "pytestipdb" | grep -v "fdf8821871d7_main_tables" | grep -v "env_py" )
 
 echo "apply all modules using monkeytype"
 for element in "${modules_array[@]}"

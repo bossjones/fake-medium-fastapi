@@ -1,4 +1,5 @@
 import pytest
+from _pytest.fixtures import SubRequest  # type: ignore
 from asyncpg.pool import Pool
 from fastapi import FastAPI
 from httpx import AsyncClient
@@ -12,7 +13,7 @@ pytestmark = pytest.mark.asyncio
 
 
 @pytest.fixture(params=("", "value", "Token value", "JWT value", "Bearer value"))
-def wrong_authorization_header(request) -> str:
+def wrong_authorization_header(request: SubRequest) -> str:
     return request.param
 
 

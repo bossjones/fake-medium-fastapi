@@ -1,5 +1,5 @@
 import asyncpg
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from loguru import logger
 
 from app.core.config import DATABASE_URL, MAX_CONNECTIONS_COUNT, MIN_CONNECTIONS_COUNT

@@ -1,6 +1,7 @@
 import uuid
 import warnings
 from os import environ, getenv
+from typing import AsyncGenerator
 
 import alembic.config
 # import docker as libdocker
@@ -18,19 +19,21 @@ from app.services import jwt
 # from tests.testing_helpers import ping_postgres, pull_image
 from tests.testing_helpers import ping_postgres
 
+# from fastapi.applications import FastAPI
+# from httpx._client import AsyncClient
+
 POSTGRES_DOCKER_IMAGE = "postgres:11.4-alpine"
 
 USE_LOCAL_DB = bool(getenv("USE_LOCAL_DB_FOR_TEST", False))
 
-DOCKER_HOST = environ.get("DOCKER_HOST")
-DOCKER_TLS_VERIFY = environ.get("DOCKER_TLS_VERIFY", False)
+# DOCKER_HOST = environ.get("DOCKER_HOST")
+# DOCKER_TLS_VERIFY = environ.get("DOCKER_TLS_VERIFY", False)
 
 POSTGRES_DB = environ.get("POSTGRES_DB", "rwdb")
 POSTGRES_PORT = environ.get("POSTGRES_PORT", "5432")
 POSTGRES_USER = environ.get("POSTGRES_USER", "postgres")
 POSTGRES_PASSWORD = environ.get("POSTGRES_PASSWORD", "postgres")
 POSTGRES_HOST = environ.get("POSTGRES_HOST", "172.16.2.234")
-
 
 # tcp://127.0.0.1:1234
 # DOCKER_TLS_VERIFY=1
@@ -48,7 +51,7 @@ POSTGRES_HOST = environ.get("POSTGRES_HOST", "172.16.2.234")
 # def postgres_server(docker: libdocker.APIClient) -> None:
 def postgres_server() -> None:
     warnings.filterwarnings("ignore", category=DeprecationWarning)
-    dsn = f"postgres://postgres:postgres@{POSTGRES_HOST}/postgres"
+    dsn = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/postgres"
     ping_postgres(dsn)
     environ["DB_CONNECTION"] = dsn
 
@@ -81,7 +84,7 @@ def postgres_server() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def apply_migrations(postgres_server: None) -> None:
+async def apply_migrations(postgres_server: None) -> AsyncGenerator:
     alembic.config.main(argv=["upgrade", "head"])
     yield
     alembic.config.main(argv=["downgrade", "base"])
@@ -156,5 +159,5 @@ def authorized_client(
     client.headers = {
         "Authorization": f"{authorization_prefix} {token}",
         **client.headers,
-    }
+    }  # type: ignore
     return client
