@@ -87,6 +87,7 @@ async def test_user_can_retrieve_article_if_exists(
     article = ArticleInResponse(**response.json())
     assert article.article == test_article
 
+
 # FIXME: Figure out how to fix mypy issue here
 @pytest.mark.parametrize(
     "update_field, update_value, extra_updates",
@@ -103,7 +104,7 @@ async def test_user_can_update_article(
     update_field: str,
     update_value: str,
     extra_updates: dict,
-) -> None: # type: ignore
+) -> None:  # type: ignore
     response = await authorized_client.put(
         app.url_path_for("articles:update-article", slug=test_article.slug),
         json={"article": {update_field: update_value}},

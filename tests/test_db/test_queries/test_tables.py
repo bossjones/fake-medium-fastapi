@@ -11,6 +11,7 @@ def test_typed_table_use_class_attribute_as_table_name() -> None:
 
     assert NewTable().get_table_name() == "new_table"
 
+
 # FIXME: This breaks monkeytype, need to understand this ... syntax
 # def test_typed_table_use_class_name_as_table_name() -> None:
 #     class NewTable(TypedTable):

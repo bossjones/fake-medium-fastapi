@@ -6,6 +6,7 @@ import docker.errors
 import psycopg2
 from docker import APIClient
 
+
 def do_with_retry(
     catching_exc: Type[Exception], reraised_exc: Type[Exception], error_msg: str
 ) -> Callable:  # pragma: no cover

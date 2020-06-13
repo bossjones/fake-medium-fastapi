@@ -22,7 +22,7 @@ class UsersQueriesMixin:
         username: str,
         email: str,
         salt: str,
-        hashed_password: str
+        hashed_password: str,
     ) -> Record: ...
     async def update_user_by_username(
         self,
@@ -34,7 +34,7 @@ class UsersQueriesMixin:
         new_salt: str,
         new_password: str,
         new_bio: Optional[str],
-        new_image: Optional[str]
+        new_image: Optional[str],
     ) -> Record: ...
 
 class ProfilesQueriesMixin:
@@ -87,7 +87,7 @@ class ArticlesQueriesMixin:
         title: str,
         description: str,
         body: str,
-        author_username: str
+        author_username: str,
     ) -> Record: ...
     async def add_tags_to_article(
         self, conn: Connection, tags_slugs: Sequence[Dict[str, str]]
@@ -101,7 +101,7 @@ class ArticlesQueriesMixin:
         new_slug: str,
         new_title: str,
         new_body: str,
-        new_description: str
+        new_description: str,
     ) -> Record: ...
     async def delete_article(
         self, conn: Connection, *, slug: str, author_username: str
