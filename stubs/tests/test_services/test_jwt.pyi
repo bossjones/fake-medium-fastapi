@@ -1,0 +1,16 @@
+from app.models.domain.users import UserInDB
+
+
+def test_creating_jwt_token() -> None: ...
+
+
+def test_creating_token_for_user(test_user: UserInDB) -> None: ...
+
+
+def test_error_when_wrong_token() -> None: ...
+
+
+def test_error_when_wrong_token_shape() -> None: ...
+
+
+def test_retrieving_token_from_user(test_user: UserInDB) -> None: ...

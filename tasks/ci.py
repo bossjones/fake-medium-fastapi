@@ -495,7 +495,7 @@ def monkeytype(
 modules_array=()
 while IFS= read -r line; do
     modules_array+=( "$line" )
-done < <( monkeytype list-modules | grep -v "pytestipdb" )
+done < <( monkeytype list-modules | grep -v "pytestipdb" | grep -v "fdf8821871d7_main_tables" | grep -v "env_py" )
 
 echo "Stub all modules using monkeytype"
 for element in "${modules_array[@]}"
@@ -525,7 +525,7 @@ done
 modules_array=()
 while IFS= read -r line; do
     modules_array+=( "$line" )
-done < <( monkeytype list-modules | grep -v "pytestipdb" )
+done < <( monkeytype list-modules | grep -v "pytestipdb" | grep -v "fdf8821871d7_main_tables" | grep -v "env_py" )
 
 echo "apply all modules using monkeytype"
 for element in "${modules_array[@]}"
