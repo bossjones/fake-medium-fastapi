@@ -115,3 +115,5 @@ cov_annotate
 
 
 monkeytype.sqlite3
+
+stubs

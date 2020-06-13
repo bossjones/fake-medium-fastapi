@@ -1,11 +1,10 @@
 import pytest
 from asyncpg.pool import Pool
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from httpx import AsyncClient
 
 from app.db.repositories.tags import TagsRepository
-from fastapi.applications import FastAPI
-from httpx._client import AsyncClient
+
 
 pytestmark = pytest.mark.asyncio
 

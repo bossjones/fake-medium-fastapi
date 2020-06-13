@@ -121,7 +121,8 @@ def mypy(ctx, loc="local", verbose=0):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    ctx.run("poetry run mypy --config-file ./lint-configs-python/python/mypy.ini app tests")
+    # ctx.run("poetry run mypy --config-file ./lint-configs-python/python/mypy.ini app tests")
+    ctx.run("poetry run mypy --config-file ./setup.cfg app tests")
 
 
 @task(incrementable=["verbose"])

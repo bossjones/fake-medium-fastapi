@@ -1,6 +1,6 @@
 import pytest
 from asyncpg.pool import Pool
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from httpx import AsyncClient
 from starlette import status
 
@@ -8,8 +8,6 @@ from app.db.repositories.profiles import ProfilesRepository
 from app.db.repositories.users import UsersRepository
 from app.models.domain.users import UserInDB
 from app.models.schemas.profiles import ProfileInResponse
-from fastapi.applications import FastAPI
-from httpx._client import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 

@@ -1,10 +1,9 @@
 from typing import Callable
 
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from loguru import logger
 
 from app.db.events import close_db_connection, connect_to_db
-from fastapi.applications import FastAPI
 
 
 def create_start_app_handler(app: FastAPI) -> Callable:  # type: ignore

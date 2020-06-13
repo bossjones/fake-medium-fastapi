@@ -1,6 +1,6 @@
 import pytest
 from asyncpg.pool import Pool
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from httpx import AsyncClient
 from starlette import status
 
@@ -8,8 +8,6 @@ from app.db.repositories.comments import CommentsRepository
 from app.db.repositories.users import UsersRepository
 from app.models.domain.articles import Article
 from app.models.schemas.comments import CommentInResponse, ListOfCommentsInResponse
-from fastapi.applications import FastAPI
-from httpx._client import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 

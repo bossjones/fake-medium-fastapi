@@ -2,6 +2,8 @@ import uuid
 import warnings
 from os import environ, getenv
 
+from typing import AsyncGenerator
+
 import alembic.config
 # import docker as libdocker
 import pytest
@@ -17,8 +19,8 @@ from app.models.domain.users import UserInDB
 from app.services import jwt
 # from tests.testing_helpers import ping_postgres, pull_image
 from tests.testing_helpers import ping_postgres
-from fastapi.applications import FastAPI
-from httpx._client import AsyncClient
+# from fastapi.applications import FastAPI
+# from httpx._client import AsyncClient
 
 POSTGRES_DOCKER_IMAGE = "postgres:11.4-alpine"
 
@@ -83,7 +85,7 @@ def postgres_server() -> None:
 
 
 @pytest.fixture(autouse=True)
-async def apply_migrations(postgres_server: None) -> None:
+async def apply_migrations(postgres_server: None) -> AsyncGenerator:
     alembic.config.main(argv=["upgrade", "head"])
     yield
     alembic.config.main(argv=["downgrade", "base"])
@@ -97,7 +99,7 @@ def app(apply_migrations: None) -> FastAPI:
 
 
 @pytest.fixture
-async def initialized_app(app: FastAPI) -> FastAPI:
+async def initialized_app(app: FastAPI) -> AsyncGenerator[FastAPI]:
     async with LifespanManager(app):
         yield app
 
@@ -108,7 +110,7 @@ def pool(initialized_app: FastAPI) -> Pool:
 
 
 @pytest.fixture
-async def client(initialized_app: FastAPI) -> AsyncClient:
+async def client(initialized_app: FastAPI) -> AsyncGenerator[AsyncClient]:
     async with AsyncClient(
         app=initialized_app,
         base_url="http://testserver",
@@ -158,5 +160,5 @@ def authorized_client(
     client.headers = {
         "Authorization": f"{authorization_prefix} {token}",
         **client.headers,
-    }
+    }  # type: ignore
     return client

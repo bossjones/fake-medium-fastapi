@@ -2,7 +2,6 @@ from datetime import datetime
 from typing import Optional
 
 from pypika import Parameter as CommonParameter, Query, Table
-from pypika.queries import Query
 
 
 class Parameter(CommonParameter):

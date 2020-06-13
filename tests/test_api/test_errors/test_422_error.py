@@ -1,8 +1,7 @@
 import pytest
-from fastapi import FastAPI
+from fastapi.applications import FastAPI
 from httpx import AsyncClient
 from starlette.status import HTTP_422_UNPROCESSABLE_ENTITY
-from fastapi.applications import FastAPI
 
 pytestmark = pytest.mark.asyncio
 
