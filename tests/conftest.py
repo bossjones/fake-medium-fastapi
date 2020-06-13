@@ -26,15 +26,14 @@ POSTGRES_DOCKER_IMAGE = "postgres:11.4-alpine"
 
 USE_LOCAL_DB = bool(getenv("USE_LOCAL_DB_FOR_TEST", False))
 
-DOCKER_HOST = environ.get("DOCKER_HOST")
-DOCKER_TLS_VERIFY = environ.get("DOCKER_TLS_VERIFY", False)
+# DOCKER_HOST = environ.get("DOCKER_HOST")
+# DOCKER_TLS_VERIFY = environ.get("DOCKER_TLS_VERIFY", False)
 
 POSTGRES_DB = environ.get("POSTGRES_DB", "rwdb")
 POSTGRES_PORT = environ.get("POSTGRES_PORT", "5432")
 POSTGRES_USER = environ.get("POSTGRES_USER", "postgres")
 POSTGRES_PASSWORD = environ.get("POSTGRES_PASSWORD", "postgres")
 POSTGRES_HOST = environ.get("POSTGRES_HOST", "172.16.2.234")
-
 
 # tcp://127.0.0.1:1234
 # DOCKER_TLS_VERIFY=1
@@ -52,7 +51,7 @@ POSTGRES_HOST = environ.get("POSTGRES_HOST", "172.16.2.234")
 # def postgres_server(docker: libdocker.APIClient) -> None:
 def postgres_server() -> None:
     warnings.filterwarnings("ignore", category=DeprecationWarning)
-    dsn = f"postgres://postgres:postgres@{POSTGRES_HOST}/postgres"
+    dsn = f"postgres://{POSTGRES_USER}:{POSTGRES_PASSWORD}@{POSTGRES_HOST}/postgres"
     ping_postgres(dsn)
     environ["DB_CONNECTION"] = dsn
 
@@ -99,7 +98,7 @@ def app(apply_migrations: None) -> FastAPI:
 
 
 @pytest.fixture
-async def initialized_app(app: FastAPI) -> AsyncGenerator[FastAPI]:
+async def initialized_app(app: FastAPI) -> FastAPI:
     async with LifespanManager(app):
         yield app
 
@@ -110,7 +109,7 @@ def pool(initialized_app: FastAPI) -> Pool:
 
 
 @pytest.fixture
-async def client(initialized_app: FastAPI) -> AsyncGenerator[AsyncClient]:
+async def client(initialized_app: FastAPI) -> AsyncClient:
     async with AsyncClient(
         app=initialized_app,
         base_url="http://testserver",

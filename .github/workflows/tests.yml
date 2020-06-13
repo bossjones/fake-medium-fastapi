@@ -45,6 +45,10 @@
 #         env:
 #           SECRET_KEY: secret_key
 #           CI: 1
+#           POSTGRES_USER: postgres
+#           POSTGRES_PASSWORD: postgres
+#           POSTGRES_DB: postgres
+#           POSTGRES_HOST: localhost
 #           DB_CONNECTION: postgres://postgres:postgres@localhost/postgres
 #         run: |
 #           source .venv/bin/activate
