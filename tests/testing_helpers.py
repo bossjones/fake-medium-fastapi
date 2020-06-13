@@ -28,9 +28,9 @@ def do_with_retry(
     return outer_wrapper
 
 
-@do_with_retry(docker.errors.APIError, RuntimeError, "cannot pull postgres image")
-def pull_image(client: APIClient, image: str) -> None:  # pragma: no cover
-    client.pull(image)
+# @do_with_retry(docker.errors.APIError, RuntimeError, "cannot pull postgres image")
+# def pull_image(client: APIClient, image: str) -> None:  # pragma: no cover
+#     client.pull(image)
 
 
 @do_with_retry(psycopg2.Error, RuntimeError, "cannot start postgres server")

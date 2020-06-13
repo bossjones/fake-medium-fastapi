@@ -108,3 +108,7 @@ venv.bak/
 
 # Project
 dbdata
+
+
+cov.xml
+cov_annotate

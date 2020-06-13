@@ -177,8 +177,8 @@ def autogen(ctx, loc="local", verbose=0, clean=False, dry_run=True, comment=""):
         click.secho(_msg, fg=COLOR_SUCCESS)
 
     # # override CI_IMAGE value
-    # ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:11267"
-    # ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:11267"
+    # ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:8000"
+    # ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:8000"
     # ctx.config["run"]["env"]["BETTER_EXCEPTIONS"] = "1"
 
     if not comment:

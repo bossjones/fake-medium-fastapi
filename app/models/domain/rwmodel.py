@@ -1,3 +1,7 @@
+# pylint: disable=E0611
+# NOTE: fixes [pylint] No name 'BaseModel' in module 'pydantic'
+# SOURCE: https://github.com/nokia-wroclaw/innovativeproject-sudoku/issues/39
+
 import datetime
 
 from pydantic import BaseConfig, BaseModel

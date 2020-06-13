@@ -121,7 +121,7 @@ def mypy(ctx, loc="local", verbose=0):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    ctx.run("mypy --config-file ./lint-configs-python/python/mypy.ini fake-medium-fastapi tests")
+    ctx.run("poetry run mypy --config-file ./lint-configs-python/python/mypy.ini app tests")
 
 
 @task(incrementable=["verbose"])
@@ -143,12 +143,12 @@ def black(ctx, loc="local", check=True, debug=False, verbose=0):
     _cmd = ""
 
     if check:
-        _cmd = "black --check --exclude=fake-medium-fastapi_venv* --verbose fake-medium-fastapi"
+        _cmd = "poetry run black --check --exclude=.venv* --verbose app"
     else:
         if verbose >= 1:
             msg = "[black] check mode disabled"
             click.secho(msg, fg="green")
-        _cmd = r"black --exclude='{}' --verbose fake-medium-fastapi".format(_black_excludes)
+        _cmd = r"poetry run black --exclude='{}' --verbose app".format(_black_excludes)
 
     ctx.run(_cmd)
 
@@ -174,7 +174,7 @@ def isort(
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _cmd = "isort --recursive"
+    _cmd = "poetry run isort --recursive"
 
     if check:
         _cmd += " --check-only"
@@ -188,7 +188,7 @@ def isort(
     if apply:
         _cmd += " --apply"
 
-    _cmd += " fake-medium-fastapi tests"
+    _cmd += " app tests"
 
     if verbose >= 1:
         msg = "{}".format(_cmd)
@@ -237,7 +237,7 @@ def pre_start(ctx, loc="local", check=True, debug=False):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    ctx.run("python fake-medium-fastapi/api/tests_pre_start.py")
+    # ctx.run("python app/api/tests_pre_start.py")
 
 
 @task(incrementable=["verbose"])
@@ -248,19 +248,19 @@ def pytest(
     debug=False,
     verbose=0,
     pdb=False,
-    configonly=False,
-    settingsonly=False,
-    pathsonly=False,
-    workspaceonly=False,
-    clientonly=False,
-    fastapionly=False,
-    jwtonly=False,
-    mockedfs=False,
-    clionly=False,
-    usersonly=False,
-    convertingtotestclientstarlette=False,
-    loggeronly=False,
-    utilsonly=False,
+    # configonly=False,
+    # settingsonly=False,
+    # pathsonly=False,
+    # workspaceonly=False,
+    # clientonly=False,
+    # fastapionly=False,
+    # jwtonly=False,
+    # mockedfs=False,
+    # clionly=False,
+    # usersonly=False,
+    # convertingtotestclientstarlette=False,
+    # loggeronly=False,
+    # utilsonly=False,
 ):
     """
     Run pytest
@@ -275,56 +275,56 @@ def pytest(
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _cmd = r"py.test"
+    _cmd = r"poetry run py.test"
 
     if verbose >= 1:
         msg = "[pytest] check mode disabled"
         click.secho(msg, fg="green")
         _cmd += r" --verbose "
 
-    if configonly:
-        _cmd += r" -m configonly "
+    # if configonly:
+    #     _cmd += r" -m configonly "
 
-    if pathsonly:
-        _cmd += r" -m pathsonly "
+    # if pathsonly:
+    #     _cmd += r" -m pathsonly "
 
-    if settingsonly:
-        _cmd += r" -m settingsonly "
+    # if settingsonly:
+    #     _cmd += r" -m settingsonly "
 
-    if workspaceonly:
-        _cmd += r" -m workspaceonly "
+    # if workspaceonly:
+    #     _cmd += r" -m workspaceonly "
 
-    if clientonly:
-        _cmd += r" -m clientonly "
+    # if clientonly:
+    #     _cmd += r" -m clientonly "
 
-    if fastapionly:
-        _cmd += r" -m fastapionly "
+    # if fastapionly:
+    #     _cmd += r" -m fastapionly "
 
-    if jwtonly:
-        _cmd += r" -m jwtonly "
+    # if jwtonly:
+    #     _cmd += r" -m jwtonly "
 
-    if mockedfs:
-        _cmd += r" -m mockedfs "
+    # if mockedfs:
+    #     _cmd += r" -m mockedfs "
 
-    if clionly:
-        _cmd += r" -m clionly "
+    # if clionly:
+    #     _cmd += r" -m clionly "
 
-    if usersonly:
-        _cmd += r" -m usersonly "
+    # if usersonly:
+    #     _cmd += r" -m usersonly "
 
-    if convertingtotestclientstarlette:
-        _cmd += r" -m convertingtotestclientstarlette "
+    # if convertingtotestclientstarlette:
+    #     _cmd += r" -m convertingtotestclientstarlette "
 
-    if loggeronly:
-        _cmd += r" -m loggeronly "
+    # if loggeronly:
+    #     _cmd += r" -m loggeronly "
 
-    if utilsonly:
-        _cmd += r" -m utilsonly "
+    # if utilsonly:
+    #     _cmd += r" -m utilsonly "
 
     if pdb:
         _cmd += r" --pdb "
 
-    _cmd += r" --cov-config=setup.cfg --verbose --cov-append --cov-report=term-missing --cov-report=xml:cov.xml --cov-report=html:htmlcov --cov-report=annotate:cov_annotate --mypy --showlocals --tb=short --cov=fake-medium-fastapi tests"
+    _cmd += r" --cov-config=setup.cfg --verbose --cov-append --cov-report=term-missing --cov-report=xml:cov.xml --cov-report=html:htmlcov --cov-report=annotate:cov_annotate --mypy --showlocals --tb=short --cov=app tests"
 
     ctx.run(_cmd)
 
@@ -367,7 +367,7 @@ def view_api_docs(ctx, loc="local"):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _cmd = r"./script/open-browser.py http://localhost:11267/docs"
+    _cmd = r"./script/open-browser.py http://localhost:8000/docs"
 
     ctx.run(_cmd)
 
@@ -409,7 +409,7 @@ def alembic_upgrade(ctx, loc="local"):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _cmd = r"alembic upgrade head"
+    _cmd = r"poetry run alembic upgrade head"
 
     ctx.run(_cmd)
 
@@ -429,7 +429,7 @@ def editable(ctx, loc="local"):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _cmd = r"pip install -e ."
+    _cmd = r"poetry install"
 
     ctx.run(_cmd)
 
@@ -474,7 +474,7 @@ def monkeytype(
         ctx.config["run"]["env"][k] = v
 
     # NOTE: https://monkeytype.readthedocs.io/en/stable/faq.html#why-did-my-test-coverage-measurement-stop-working
-    _cmd = r"""monkeytype run "`command -v pytest`" --no-cov --verbose --mypy --showlocals --tb=short tests"""
+    _cmd = r"""poetry run monkeytype run "`command -v pytest`" --no-cov --verbose --mypy --showlocals --tb=short tests"""
 
     if test:
         if verbose >= 1:
@@ -581,7 +581,7 @@ def autoflake(
         ctx.config["run"]["env"][k] = v
 
     # To remove all unused imports (whether or not they are from the standard library), use the --remove-all-unused-imports option.
-    _cmd = "autoflake"
+    _cmd = "poetry run autoflake"
     _cmd += " --recursive --remove-unused-variables"
 
     if remove_all_unused_imports:
@@ -594,7 +594,7 @@ def autoflake(
         _cmd += " --in-place"
 
     _cmd += " --exclude=__init__.py"
-    _cmd += " fake-medium-fastapi"
+    _cmd += " app"
     _cmd += " tests"
     _cmd += " tasks"
 
@@ -654,7 +654,7 @@ def clean_pyi(ctx, loc="local", verbose=0, dry_run=False):
     pre=[
         call(clean, loc="local"),
         call(verify_python_version, loc="local"),
-        call(pre_start, loc="local"),
+        # call(pre_start, loc="local"),
         call(alembic_upgrade, loc="local"),
         # call(pytest, loc="local", configonly=True),
         # call(pytest, loc="local", settingsonly=True),
@@ -690,9 +690,12 @@ def travis(ctx, loc="local", check=True, debug=False, verbose=0):
     if verbose >= 1:
         msg = "[travis] check mode disabled"
         click.secho(msg, fg="green")
+#     _cmd = r"""
+# mv -f .coverage .coverage.tests || true
+# coverage combine
+# """
     _cmd = r"""
-mv -f .coverage .coverage.tests || true
-coverage combine
+pytest
 """
 
     ctx.run(_cmd)

@@ -121,8 +121,8 @@ def serve(ctx, loc="local", verbose=0, cleanup=False):
         click.secho(msg, fg=COLOR_SUCCESS)
 
     # override CI_IMAGE value
-    ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:11267"
-    ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:11267"
+    ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:8000"
+    ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:8000"
     ctx.config["run"]["env"]["BETTER_EXCEPTIONS"] = "1"
 
     _cmd = r"""
@@ -164,8 +164,8 @@ def web(ctx, loc="local", verbose=0, cleanup=False, app_only=False):
         click.secho(msg, fg=COLOR_SUCCESS)
 
     # override CI_IMAGE value
-    # ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:11267"
-    # ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:11267"
+    # ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:8000"
+    # ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:8000"
     ctx.config["run"]["env"]["BETTER_EXCEPTIONS"] = "1"
 
     if verbose >= 3:
@@ -633,7 +633,7 @@ def list_ports(ctx, loc="local", verbose=0, cleanup=False):
     # SOURCE: https://wilsonmar.github.io/ports-open/
     # lsof -nP +c 15 | grep LISTEN
     _cmd = r"""
-nmap -p 11267,3000,5678,6666 localhost
+nmap -p 8000,3000,5678,6666 localhost
     """
 
     if verbose >= 1:

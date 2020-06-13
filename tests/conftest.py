@@ -3,7 +3,7 @@ import warnings
 from os import environ, getenv
 
 import alembic.config
-import docker as libdocker
+# import docker as libdocker
 import pytest
 from asgi_lifespan import LifespanManager
 from asyncpg.pool import Pool
@@ -15,48 +15,69 @@ from app.db.repositories.users import UsersRepository
 from app.models.domain.articles import Article
 from app.models.domain.users import UserInDB
 from app.services import jwt
-from tests.testing_helpers import ping_postgres, pull_image
+# from tests.testing_helpers import ping_postgres, pull_image
+from tests.testing_helpers import ping_postgres
 
 POSTGRES_DOCKER_IMAGE = "postgres:11.4-alpine"
 
 USE_LOCAL_DB = bool(getenv("USE_LOCAL_DB_FOR_TEST", False))
 
+DOCKER_HOST = environ.get("DOCKER_HOST")
+DOCKER_TLS_VERIFY = environ.get("DOCKER_TLS_VERIFY", False)
 
-@pytest.fixture(scope="session")
-def docker() -> libdocker.APIClient:
-    with libdocker.APIClient(version="auto") as client:
-        yield client
+POSTGRES_DB = environ.get("POSTGRES_DB", "rwdb")
+POSTGRES_PORT = environ.get("POSTGRES_PORT", "5432")
+POSTGRES_USER = environ.get("POSTGRES_USER", "postgres")
+POSTGRES_PASSWORD = environ.get("POSTGRES_PASSWORD", "postgres")
+POSTGRES_HOST = environ.get("POSTGRES_HOST", "172.16.2.234")
+
+
+# tcp://127.0.0.1:1234
+# DOCKER_TLS_VERIFY=1
+# DOCKER_HOST=tcp://172.16.2.234:2376
+# DOCKER_CERT_PATH=/Users/malcolm/.docker/machine/machines/dev2
+# DOCKER_MACHINE_NAME=dev2
+
+# @pytest.fixture(scope="session")
+# def docker() -> libdocker.APIClient:
+#     with libdocker.APIClient(version="auto", base_url=DOCKER_HOST) as client:
+#         yield client
 
 
 @pytest.fixture(scope="session", autouse=True)
-def postgres_server(docker: libdocker.APIClient) -> None:
+# def postgres_server(docker: libdocker.APIClient) -> None:
+def postgres_server() -> None:
     warnings.filterwarnings("ignore", category=DeprecationWarning)
+    dsn = f"postgres://postgres:postgres@{POSTGRES_HOST}/postgres"
+    ping_postgres(dsn)
+    environ["DB_CONNECTION"] = dsn
 
-    if not USE_LOCAL_DB:  # pragma: no cover
-        pull_image(docker, POSTGRES_DOCKER_IMAGE)
+    # if not USE_LOCAL_DB:  # pragma: no cover
+    #     pull_image(docker, POSTGRES_DOCKER_IMAGE)
 
-        container = docker.create_container(
-            image=POSTGRES_DOCKER_IMAGE,
-            name="test-postgres-{}".format(uuid.uuid4()),
-            detach=True,
-        )
-        docker.start(container=container["Id"])
-        inspection = docker.inspect_container(container["Id"])
-        host = inspection["NetworkSettings"]["IPAddress"]
+    #     container = docker.create_container(
+    #         image=POSTGRES_DOCKER_IMAGE,
+    #         name="test-postgres-{}".format(uuid.uuid4()),
+    #         detach=True,
+    #     )
+    #     docker.start(container=container["Id"])
+    #     inspection = docker.inspect_container(container["Id"])
+    #     host = inspection["NetworkSettings"]["IPAddress"]
 
-        dsn = f"postgres://postgres:postgres@{host}/postgres"
+    #     dsn = f"postgres://postgres:postgres@{host}/postgres"
+    #     DB_CONNECTION=postgresql://postgres:postgres@172.16.2.234:5432/rwdb
 
-        try:
-            ping_postgres(dsn)
-            environ["DB_CONNECTION"] = dsn
+    #     try:
+    #         ping_postgres(dsn)
+    #         environ["DB_CONNECTION"] = dsn
 
-            yield container
-        finally:
-            docker.kill(container["Id"])
-            docker.remove_container(container["Id"])
-    else:  # pragma: no cover
-        yield
-        return
+    #         yield container
+    #     finally:
+    #         docker.kill(container["Id"])
+    #         docker.remove_container(container["Id"])
+    # else:  # pragma: no cover
+    #     yield
+    #     return
 
 
 @pytest.fixture(autouse=True)
