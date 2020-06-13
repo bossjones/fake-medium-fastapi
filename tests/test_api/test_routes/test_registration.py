@@ -6,6 +6,8 @@ from starlette.status import HTTP_201_CREATED, HTTP_400_BAD_REQUEST
 
 from app.db.repositories.users import UsersRepository
 from app.models.domain.users import UserInDB
+from fastapi.applications import FastAPI
+from httpx._client import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 

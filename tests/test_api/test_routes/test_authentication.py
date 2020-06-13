@@ -5,6 +5,8 @@ from starlette.status import HTTP_403_FORBIDDEN
 
 from app.models.domain.users import User
 from app.services.jwt import create_access_token_for_user
+from fastapi.applications import FastAPI
+from httpx._client import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 

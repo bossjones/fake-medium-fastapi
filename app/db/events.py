@@ -3,6 +3,7 @@ from fastapi import FastAPI
 from loguru import logger
 
 from app.core.config import DATABASE_URL, MAX_CONNECTIONS_COUNT, MIN_CONNECTIONS_COUNT
+from fastapi.applications import FastAPI
 
 
 async def connect_to_db(app: FastAPI) -> None:

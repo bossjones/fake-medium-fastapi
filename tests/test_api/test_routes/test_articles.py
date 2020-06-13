@@ -11,6 +11,8 @@ from app.db.repositories.users import UsersRepository
 from app.models.domain.articles import Article
 from app.models.domain.users import UserInDB
 from app.models.schemas.articles import ArticleInResponse, ListOfArticlesInResponse
+from fastapi.applications import FastAPI
+from httpx._client import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 

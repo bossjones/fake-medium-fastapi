@@ -17,6 +17,8 @@ from app.models.domain.users import UserInDB
 from app.services import jwt
 # from tests.testing_helpers import ping_postgres, pull_image
 from tests.testing_helpers import ping_postgres
+from fastapi.applications import FastAPI
+from httpx._client import AsyncClient
 
 POSTGRES_DOCKER_IMAGE = "postgres:11.4-alpine"
 

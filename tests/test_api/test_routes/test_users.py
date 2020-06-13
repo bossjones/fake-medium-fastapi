@@ -7,12 +7,15 @@ from starlette import status
 from app.db.repositories.users import UsersRepository
 from app.models.domain.users import UserInDB
 from app.models.schemas.users import UserInResponse
+from _pytest.fixtures import SubRequest
+from fastapi.applications import FastAPI
+from httpx._client import AsyncClient
 
 pytestmark = pytest.mark.asyncio
 
 
 @pytest.fixture(params=("", "value", "Token value", "JWT value", "Bearer value"))
-def wrong_authorization_header(request) -> str:
+def wrong_authorization_header(request: SubRequest) -> str:
     return request.param
 
 
