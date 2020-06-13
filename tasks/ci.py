@@ -163,7 +163,10 @@ def black(ctx, loc="local", check=False, debug=False, verbose=0, tests=False):
     ctx.run(_cmd)
 
 
-@task(incrementable=["verbose"])
+@task(
+    pre=[call(clean, loc="local"),],
+    incrementable=["verbose"],
+)
 def isort(
     ctx, loc="local", check=False, dry_run=False, verbose=0, apply=False, diff=False
 ):

@@ -5,7 +5,6 @@ from httpx import AsyncClient
 
 from app.db.repositories.tags import TagsRepository
 
-
 pytestmark = pytest.mark.asyncio
 
 

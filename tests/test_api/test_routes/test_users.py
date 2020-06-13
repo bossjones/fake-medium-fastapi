@@ -1,4 +1,5 @@
 import pytest
+from _pytest.fixtures import SubRequest  # type: ignore
 from asyncpg.pool import Pool
 from fastapi import FastAPI
 from httpx import AsyncClient
@@ -7,7 +8,6 @@ from starlette import status
 from app.db.repositories.users import UsersRepository
 from app.models.domain.users import UserInDB
 from app.models.schemas.users import UserInResponse
-from _pytest.fixtures import SubRequest  # type: ignore
 
 pytestmark = pytest.mark.asyncio
 
