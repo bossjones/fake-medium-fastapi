@@ -6,7 +6,7 @@
 #       - master
 
 # env:
-#   IMAGE_NAME: nsidnev/fake-medium-fastapi
+#   IMAGE_NAME: bossjones/fake-medium-fastapi
 #   DOCKER_USER: ${{ secrets.DOCKER_USER }}
 #   DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
 
