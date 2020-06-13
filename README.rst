@@ -1,4 +1,6 @@
-.. image:: ./.github/assets/logo.png
+IMPORTANT
+----------
+I just wanted to try messing around with an already "complete" project that uses fastapi. This is pretty much a clone of the work that https://github.com/nsidnev/fastapi-realworld-example-app has done, and I only indend to use this for learning purposes.
 
 |
 
