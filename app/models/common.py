@@ -1,5 +1,6 @@
 import datetime
 
+import pydantic
 from pydantic import BaseModel, Field, validator
 
 

@@ -126,8 +126,8 @@ def serve(ctx, loc="local", verbose=0, cleanup=False):
     ctx.config["run"]["env"]["BETTER_EXCEPTIONS"] = "1"
 
     _cmd = r"""
-pkill -f "fake-medium-fastapi/dev_serve.py" || true
-pgrep -f "fake-medium-fastapi/dev_serve.py" || true
+pkill -f "uvicorn app.main:app --reload" || true
+pgrep -f "uvicorn app.main:app --reload" || true
     """
 
     if verbose >= 1:
@@ -144,6 +144,7 @@ pgrep -f "fake-medium-fastapi/dev_serve.py" || true
     # ctx.run("python ./fake-medium-fastapi/api/backend_pre_start.py")
     # ctx.run("python ./fake-medium-fastapi/initial_data.py")
     # ctx.run("python fake-medium-fastapi/dev_serve.py")
+    ctx.run("uvicorn app.main:app --reload")
 
 
 @task(pre=[call(detect_os, loc="local")], incrementable=["verbose"])
@@ -163,14 +164,15 @@ def web(ctx, loc="local", verbose=0, cleanup=False, app_only=False):
         click.secho(msg, fg=COLOR_SUCCESS)
 
     # override CI_IMAGE value
-    ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:11267"
-    ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:11267"
+    # ctx.config["run"]["env"]["SERVER_NAME"] = "localhost:11267"
+    # ctx.config["run"]["env"]["SERVER_HOST"] = "http://localhost:11267"
     ctx.config["run"]["env"]["BETTER_EXCEPTIONS"] = "1"
 
     if verbose >= 3:
         click.secho(
             "Detected 4 or more verbose flags, enabling TRACE mode", fg=COLOR_WARNING
         )
+        # TODO: recreate web.py as your application runner
         ctx.config["run"]["env"]["ULTRON_ENVIRONMENT"] = "development"
 
     _cmd = r"""

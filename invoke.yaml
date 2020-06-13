@@ -24,6 +24,7 @@ docker:
     POSTGRES_HOST: 172.16.2.234
     DB_CONNECTION: "postgresql://postgres:postgres@172.16.2.234:5432/rwdb"
     SECRET_KEY: "4f5830195970088f3c34f3dd1aeec1ce7b0c9153270b5d50c770cdbdd65f8403"
+    BETTER_EXCEPTIONS: '1'
 
 local:
   env:
@@ -35,3 +36,5 @@ local:
     POSTGRES_HOST: 172.16.2.234
     DB_CONNECTION: "postgresql://postgres:postgres@172.16.2.234:5432/rwdb"
     SECRET_KEY: "4f5830195970088f3c34f3dd1aeec1ce7b0c9153270b5d50c770cdbdd65f8403"
+    BETTER_EXCEPTIONS: '1'
+    USE_LOCAL_DB_FOR_TEST: 'True'

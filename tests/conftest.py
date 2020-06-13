@@ -19,7 +19,7 @@ from tests.testing_helpers import ping_postgres, pull_image
 
 POSTGRES_DOCKER_IMAGE = "postgres:11.4-alpine"
 
-USE_LOCAL_DB = getenv("USE_LOCAL_DB_FOR_TEST", False)
+USE_LOCAL_DB = bool(getenv("USE_LOCAL_DB_FOR_TEST", False))
 
 
 @pytest.fixture(scope="session")

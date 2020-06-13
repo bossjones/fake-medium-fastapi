@@ -21,6 +21,7 @@ python-slugify = "^4.0"
 Unidecode = "^1.1"
 loguru = "^0.5.0"
 invoke = "^1.4.1"
+better_exceptions = "^0.2.2"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
@@ -53,6 +54,7 @@ pytest-leaks = "^0.3.1"
 pytest-mypy = "^0.6.2"
 pytest-dotenv = "^0.5.1"
 pytest-watch = "^4.2.0"
+ipython = "^7.15.0"
 
 [build-system]
 requires = ["poetry>=1.0"]
