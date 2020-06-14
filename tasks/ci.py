@@ -358,7 +358,7 @@ def view_coverage(ctx, loc="local"):
     for k, v in env.items():
         ctx.config["run"]["env"][k] = v
 
-    _cmd = r"./script/open-browser.py file://${PWD}/htmlcov/index.html"
+    _cmd = r"./scripts/open-browser.py file://${PWD}/htmlcov/index.html"
 
     ctx.run(_cmd)
 
