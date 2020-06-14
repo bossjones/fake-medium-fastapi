@@ -95,7 +95,9 @@ def pylint(ctx, loc="local", tests=False, everything=False, specific=""):
             "poetry run pylint --disable=all --enable=F,E --rcfile ./lint-configs-python/python/pylintrc tests"
         )
     elif everything:
-        ctx.run("poetry run pylint --rcfile ./lint-configs-python/python/pylintrc tests app")
+        ctx.run(
+            "poetry run pylint --rcfile ./lint-configs-python/python/pylintrc tests app"
+        )
     elif specific:
         ctx.run(
             f"poetry run pylint --disable=all --enable={specific} --rcfile ./lint-configs-python/python/pylintrc tests app"
@@ -124,9 +126,9 @@ def mypy(ctx, loc="local", verbose=0):
     # ctx.run("poetry run mypy --config-file ./lint-configs-python/python/mypy.ini app tests")
     ctx.run("poetry run mypy --config-file ./setup.cfg app tests")
 
+
 @task(
-    pre=[call(clean, loc="local"),],
-    incrementable=["verbose"],
+    pre=[call(clean, loc="local"),], incrementable=["verbose"],
 )
 def black(ctx, loc="local", check=False, debug=False, verbose=0, tests=False):
     """
@@ -151,7 +153,7 @@ def black(ctx, loc="local", check=False, debug=False, verbose=0, tests=False):
         _cmd += "--verbose "
 
     if tests:
-        _cmd += "tests "
+        _cmd += "tests tasks "
 
     _cmd += "app"
 
@@ -164,8 +166,7 @@ def black(ctx, loc="local", check=False, debug=False, verbose=0, tests=False):
 
 
 @task(
-    pre=[call(clean, loc="local"),],
-    incrementable=["verbose"],
+    pre=[call(clean, loc="local"),], incrementable=["verbose"],
 )
 def isort(
     ctx, loc="local", check=False, dry_run=False, verbose=0, apply=False, diff=False
@@ -703,10 +704,10 @@ def travis(ctx, loc="local", check=True, debug=False, verbose=0):
     if verbose >= 1:
         msg = "[travis] check mode disabled"
         click.secho(msg, fg="green")
-#     _cmd = r"""
-# mv -f .coverage .coverage.tests || true
-# coverage combine
-# """
+    #     _cmd = r"""
+    # mv -f .coverage .coverage.tests || true
+    # coverage combine
+    # """
     _cmd = r"""
 pytest
 """
@@ -747,3 +748,36 @@ def lint(ctx, loc="local", check=True, debug=False, verbose=0):
     if verbose >= 1:
         msg = "[lint] check mode disabled"
         click.secho(msg, fg="green")
+
+
+@task(
+    pre=[call(clean, loc="local"),], incrementable=["verbose"],
+)
+def postman(
+    ctx, loc="local", dry_run=False, verbose=0
+):
+    """
+    Run integration tests against active api server.
+    """
+    env = get_compose_env(ctx, loc=loc)
+
+    # Only display result
+    ctx.config["run"]["echo"] = True
+
+    # Override run commands env variables one key at a time
+    for k, v in env.items():
+        ctx.config["run"]["env"][k] = v
+
+    _cmd = "poetry run ./postman/run-api-tests.sh"
+
+    if verbose >= 1:
+        msg = "{}".format(_cmd)
+        click.secho(msg, fg=COLOR_SUCCESS)
+
+    if dry_run:
+        click.secho(
+            "[postman] DRY RUN mode enabled, not executing command: {}".format(_cmd),
+            fg=COLOR_CAUTION,
+        )
+    else:
+        ctx.run(_cmd)

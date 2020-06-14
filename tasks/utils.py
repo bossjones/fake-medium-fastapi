@@ -35,7 +35,11 @@ ENV_WHITELIST = [
     "POSTGRES_USER",
     "POSTGRES_PASSWORD",
     "POSTGRES_HOST",
-    "DB_CONNECTION"
+    "DB_CONNECTION",
+    "SECRET_KEY",
+    "BETTER_EXCEPTIONS",
+    "USE_LOCAL_DB_FOR_TEST",
+    "APIURL"
 ]
 
 logger = logging.getLogger(__name__)

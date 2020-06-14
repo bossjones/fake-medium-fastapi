@@ -16,7 +16,7 @@ run:
 
 docker:
   env:
-    # env vars for the flask app
+    # env vars for the fastapi app
     POSTGRES_DB: "rwdb"
     POSTGRES_PORT: "5432"
     POSTGRES_USER: "postgres"
@@ -25,10 +25,11 @@ docker:
     DB_CONNECTION: "postgresql://postgres:postgres@172.16.2.234:5432/rwdb"
     SECRET_KEY: "4f5830195970088f3c34f3dd1aeec1ce7b0c9153270b5d50c770cdbdd65f8403"
     BETTER_EXCEPTIONS: '1'
+    APIURL: "http://localhost:8000/api"
 
 local:
   env:
-    # env vars for the flask app
+    # env vars for the fastapi app
     POSTGRES_DB: "rwdb"
     POSTGRES_PORT: "5432"
     POSTGRES_USER: "postgres"
@@ -38,3 +39,4 @@ local:
     SECRET_KEY: "4f5830195970088f3c34f3dd1aeec1ce7b0c9153270b5d50c770cdbdd65f8403"
     BETTER_EXCEPTIONS: '1'
     USE_LOCAL_DB_FOR_TEST: 'True'
+    APIURL: "http://localhost:8000/api"
