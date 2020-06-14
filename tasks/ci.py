@@ -748,3 +748,36 @@ def lint(ctx, loc="local", check=True, debug=False, verbose=0):
     if verbose >= 1:
         msg = "[lint] check mode disabled"
         click.secho(msg, fg="green")
+
+
+@task(
+    pre=[call(clean, loc="local"),], incrementable=["verbose"],
+)
+def postman(
+    ctx, loc="local", dry_run=False, verbose=0
+):
+    """
+    Run integration tests against active api server.
+    """
+    env = get_compose_env(ctx, loc=loc)
+
+    # Only display result
+    ctx.config["run"]["echo"] = True
+
+    # Override run commands env variables one key at a time
+    for k, v in env.items():
+        ctx.config["run"]["env"][k] = v
+
+    _cmd = "poetry run ./postman/run-api-tests.sh"
+
+    if verbose >= 1:
+        msg = "{}".format(_cmd)
+        click.secho(msg, fg=COLOR_SUCCESS)
+
+    if dry_run:
+        click.secho(
+            "[postman] DRY RUN mode enabled, not executing command: {}".format(_cmd),
+            fg=COLOR_CAUTION,
+        )
+    else:
+        ctx.run(_cmd)
