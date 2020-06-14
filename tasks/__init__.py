@@ -24,10 +24,13 @@ import logging
 from invoke import Collection, Context, Config
 from invoke import task
 from .constants import ROOT_DIR, PROJECT_BIN_DIR, DATA_DIR, SCRIPT_DIR
+
 # from . import core
 from . import local
+
 # from . import travis
 from . import ci
+
 # from . import program
 # from . import db
 # from .git import pr_sha

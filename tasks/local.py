@@ -20,6 +20,7 @@ from .utils import (
 logger = logging.getLogger(__name__)
 logger.setLevel("DEBUG")
 
+
 @task(incrementable=["verbose"])
 def get_env(ctx, loc="local", verbose=0):
     """
@@ -245,7 +246,9 @@ pip install -r requirements-doc.txt
 
     ctx.run(_cmd)
 
-    click.secho("[install] install editable version of fake-medium-fastapi", fg=COLOR_SUCCESS)
+    click.secho(
+        "[install] install editable version of fake-medium-fastapi", fg=COLOR_SUCCESS
+    )
     ctx.run("pip install -e .")
 
 
